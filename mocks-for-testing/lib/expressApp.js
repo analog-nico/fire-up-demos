@@ -4,14 +4,16 @@
 
 module.exports = {
   implements: 'expressApp',
-  inject: ['require(bluebird)', 'require(express)', 'require(lodash)', 'config:*', 'routes:*']
+  inject: ['require(bluebird)', 'require(express)', 'require(morgan)', 'require(lodash)', 'config:*', 'routes:*']
 };
 
-module.exports.factory = function(Promise, express, _, configModules, routesModules) {
+module.exports.factory = function(Promise, express, logger, _, configModules, routesModules) {
 
   return new Promise(function (resolve) {
 
     var app = express();
+
+    app.use(logger('dev'));
 
     _.forOwn(configModules, function (module, interfaceName) {
       module.config(app);
