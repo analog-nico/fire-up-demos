@@ -8,11 +8,11 @@
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="project in projects | orderByPriority | filter:search | orderBy:'name'">
+  <tr ng-repeat="project in projects | filter:search | orderBy:'name'">
     <td><a href="{{project.site}}" target="_blank">{{project.name}}</a></td>
     <td>{{project.description}}</td>
     <td>
-      <a href="#/edit/{{project.$id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+      <a href="#/edit/{{project._id}}"><span class="glyphicon glyphicon-pencil"></span></a>
     </td>
   </tr>
   </tbody>

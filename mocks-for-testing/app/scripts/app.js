@@ -1,18 +1,26 @@
-angular.module('project', ['ngRoute', 'firebase'])
+angular.module('project', ['ngResource', 'ngRoute'])
 
-  .value('fbURL', 'https://angularjs-projects.firebaseio.com/')
+  .provider('Project', function () {
 
-  .factory('Projects', function($firebase, fbURL) {
-    return $firebase(new Firebase(fbURL));
+    this.$get = function ($resource) {
+      var Project = $resource('/api/projects/:_id', {}, {
+        update: {
+          method: 'PUT'
+        }
+      });
+
+      return Project;
+    };
+
   })
 
-  .config(function($routeProvider) {
+  .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         controller:'ListCtrl',
         templateUrl:'partials/list.html'
       })
-      .when('/edit/:projectId', {
+      .when('/edit/:_id', {
         controller:'EditCtrl',
         templateUrl:'partials/detail.html'
       })
@@ -25,29 +33,30 @@ angular.module('project', ['ngRoute', 'firebase'])
       });
   })
 
-  .controller('ListCtrl', function($scope, Projects) {
-    $scope.projects = Projects;
+  .controller('ListCtrl', function ($scope, Project) {
+    $scope.projects = Project.query();
   })
 
-  .controller('CreateCtrl', function($scope, $location, $timeout, Projects) {
-    $scope.save = function() {
-      Projects.$add($scope.project, function() {
-        $timeout(function() { $location.path('/'); });
+  .controller('CreateCtrl', function ($scope, $location, Project) {
+    $scope.project = new Project();
+    $scope.save = function () {
+      $scope.project.$save(function () {
+        $location.path('/');
+        $scope.project = new Project();
       });
     };
   })
 
-  .controller('EditCtrl', function($scope, $location, $routeParams, $firebase, fbURL) {
-    var projectUrl = fbURL + $routeParams.projectId;
-    $scope.project = $firebase(new Firebase(projectUrl));
+  .controller('EditCtrl', function($scope, $routeParams, $location, Project) {
+    $scope.project = Project.get({ _id: $routeParams._id });
 
-    $scope.destroy = function() {
-      $scope.project.$remove();
+    $scope.save = function() {
+      $scope.project.$update({ _id: $routeParams._id });
       $location.path('/');
     };
 
-    $scope.save = function() {
-      $scope.project.$save();
+    $scope.destroy = function() {
+      $scope.project.$remove({ _id: $routeParams._id });
       $location.path('/');
     };
   });
