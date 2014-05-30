@@ -15,11 +15,11 @@ module.exports.factory = function (Promise, Datastore) {
 
     return new Promise(function (resolve, reject) {
 
-      db.find({}, function (err, storedTodos) {
+      db.find({}, function (err, storedProjects) {
         if (err) {
           reject(err);
         } else {
-          resolve(storedTodos);
+          resolve(storedProjects);
         }
       });
 
@@ -27,15 +27,15 @@ module.exports.factory = function (Promise, Datastore) {
 
   }
 
-  function create(todo) {
+  function create(project) {
 
     return new Promise(function (resolve, reject) {
 
-      db.insert(todo, function (err, storedTodo) {
+      db.insert(project, function (err, storedProject) {
         if (err) {
           reject(err);
         } else {
-          resolve(storedTodo);
+          resolve(storedProject);
         }
       });
 
@@ -47,11 +47,11 @@ module.exports.factory = function (Promise, Datastore) {
 
     return new Promise(function (resolve, reject) {
 
-      db.find({ _id: id }, function (err, storedTodos) {
+      db.find({ _id: id }, function (err, storedProjects) {
         if (err) {
           reject(err);
         } else {
-          resolve(storedTodos[0]);
+          resolve(storedProjects[0]);
         }
       });
 
@@ -59,11 +59,11 @@ module.exports.factory = function (Promise, Datastore) {
 
   }
 
-  function update(id, todo) {
+  function update(id, project) {
 
     return new Promise(function (resolve, reject) {
 
-      db.update({ _id: id }, todo, { upsert: true }, function (err, numReplaced) {
+      db.update({ _id: id }, project, { upsert: true }, function (err, numReplaced) {
         if (err) {
           reject(err);
         } else {
