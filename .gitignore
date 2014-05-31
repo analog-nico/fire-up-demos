@@ -1,3 +1,4 @@
 .idea
 mocks-for-testing/node_modules
 mocks-for-testing/app/bower_components
+mocks-for-testing/datastore

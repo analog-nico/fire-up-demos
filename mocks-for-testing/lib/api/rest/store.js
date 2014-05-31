@@ -4,91 +4,36 @@
 
 module.exports = {
   implements: 'api/rest/store',
-  inject: ['require(bluebird)', 'require(nedb)']
+  inject: ['require(nedb)', 'require(path)']
 };
 
-module.exports.factory = function (Promise, Datastore) {
+module.exports.factory = function (Datastore, path) {
 
-  var db = new Datastore();
+  var db = new Datastore({
+    filename: path.join(__dirname, '../../../datastore'),
+    autoload: true
+  });
 
-  function list() {
-
-    return new Promise(function (resolve, reject) {
-
-      db.find({}, function (err, storedProjects) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(storedProjects);
-        }
-      });
-
-    });
-
+  function list(respond) {
+    db.find({}, respond);
   }
 
-  function create(project) {
-
-    return new Promise(function (resolve, reject) {
-
-      db.insert(project, function (err, storedProject) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(storedProject);
-        }
-      });
-
-    });
-
+  function create(project, respond) {
+    db.insert(project, respond);
   }
 
-  function read(id) {
-
-    return new Promise(function (resolve, reject) {
-
-      db.find({ _id: id }, function (err, storedProjects) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(storedProjects[0]);
-        }
-      });
-
+  function read(id, respond) {
+    db.find({ _id: id }, function (err, storedProjects) {
+      respond(err, storedProjects[0]);
     });
-
   }
 
-  function update(id, project) {
-
-    return new Promise(function (resolve, reject) {
-
-      db.update({ _id: id }, project, { upsert: true }, function (err, numReplaced) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({});
-        }
-      });
-
-    });
-
+  function update(id, project, respond) {
+    db.update({ _id: id }, project, { upsert: true }, respond);
   }
 
-  function purge(id) {
-
-    return new Promise(function (resolve, reject) {
-
-      db.remove({ _id: id }, function (err, numRemoved) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({});
-        }
-      });
-
-    });
-
+  function purge(id, respond) {
+    db.remove({ _id: id }, respond);
   }
 
   return {
