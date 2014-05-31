@@ -1,16 +1,12 @@
 angular.module('project', ['ngResource', 'ngRoute'])
 
-  .provider('Project', function () {
+  .factory('Project', function ($resource) {
 
-    this.$get = function ($resource) {
-      var Project = $resource('/api/projects/:_id', {}, {
-        update: {
-          method: 'PUT'
-        }
-      });
-
-      return Project;
-    };
+    return $resource('/api/projects/:_id', {}, {
+      update: {
+        method: 'PUT'
+      }
+    });
 
   })
 
@@ -20,12 +16,12 @@ angular.module('project', ['ngResource', 'ngRoute'])
         controller:'ListCtrl',
         templateUrl:'partials/list.html'
       })
-      .when('/edit/:_id', {
-        controller:'EditCtrl',
-        templateUrl:'partials/detail.html'
-      })
       .when('/new', {
         controller:'CreateCtrl',
+        templateUrl:'partials/detail.html'
+      })
+      .when('/edit/:_id', {
+        controller:'EditCtrl',
         templateUrl:'partials/detail.html'
       })
       .otherwise({
@@ -42,7 +38,6 @@ angular.module('project', ['ngResource', 'ngRoute'])
     $scope.save = function () {
       $scope.project.$save(function () {
         $location.path('/');
-        $scope.project = new Project();
       });
     };
   })
