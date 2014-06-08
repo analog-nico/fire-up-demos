@@ -1,5 +1,5 @@
 {
-  "name": "fire-up-demos-mocks-for-testing",
+  "name": "fire-up-demos",
   "version": "0.0.1",
   "dependencies": {
     "bluebird": "^1.2.4",

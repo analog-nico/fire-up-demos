@@ -1,4 +1,4 @@
 .idea
-02-unit-testing/node_modules
-02-unit-testing/app/bower_components
-02-unit-testing/datastore
+node_modules
+01-app-structure/app/bower_components
+01-app-structure/datastore

@@ -9,14 +9,14 @@ module.exports = function (grunt) {
 
     execute: {
       all: {
-        src: ['server.js']
+        src: ['01-app-structure/server.js']
       }
     },
     jasmine_node: {
       options: {
         matchall: true
       },
-      all: ['test/spec/']
+      all: ['02-unit-testing/test/spec/']
     }
 
   });
