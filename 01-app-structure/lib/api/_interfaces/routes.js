@@ -3,7 +3,8 @@
 // Fire me up!
 
 module.exports = {
-  implements: 'routes'
+  implements: 'routes',
+  type: 'multiple instances'
 };
 
 module.exports.factory = function (express, store, _) {

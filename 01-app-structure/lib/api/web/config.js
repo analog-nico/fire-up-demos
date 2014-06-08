@@ -4,17 +4,17 @@
 
 module.exports = {
   implements: 'config:web',
-  inject: ['require(express)', 'require(path)']
+  inject: ['require(express)', 'require(path)', 'config', 'require(lodash)']
 };
 
-module.exports.factory = function (express, path) {
+module.exports.factory = function (express, path, configInterface, _) {
 
   function config(app) {
     app.use(express.static(path.join(__dirname, '../../../app')));
   }
 
-  return {
+  return _.extend(configInterface, {
     config: config
-  };
+  });
 
 };

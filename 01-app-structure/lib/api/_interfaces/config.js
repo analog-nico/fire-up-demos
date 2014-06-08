@@ -3,7 +3,8 @@
 // Fire me up!
 
 module.exports = {
-  implements: 'config'
+  implements: 'config',
+  type: 'multiple instances'
 };
 
 module.exports.factory = function () {
@@ -14,7 +15,12 @@ module.exports.factory = function () {
      *
      * @param app The Express app
      */
-    config: function (app) { }
+    config: function (app) { },
+
+    /**
+     * For modules with a higher priority config will be invoked first.
+     */
+    priority: 5
   };
 
 };
