@@ -1,5 +1,5 @@
 .idea
-mocks-for-testing/node_modules
-mocks-for-testing/app/bower_components
-mocks-for-testing/datastore
+02-unit-testing/node_modules
+02-unit-testing/app/bower_components
+02-unit-testing/datastore
 mongodb*
