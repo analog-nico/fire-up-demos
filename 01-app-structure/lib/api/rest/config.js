@@ -10,7 +10,7 @@ module.exports = {
 module.exports.factory = function (bodyParser, configInterface, _) {
 
   function config(app) {
-    app.use(bodyParser());
+    app.use(bodyParser.json());
   }
 
   return _.extend(configInterface, {
